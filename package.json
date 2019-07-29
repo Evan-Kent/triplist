@@ -1,0 +1,29 @@
+{
+  "name": "triplist",
+  "version": "0.0.1",
+  "description": "Trip list creator - web app using express and mongodb",
+  "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^3.3.0-beta2",
+    "pug": "^2.0.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Evan-Kent/triplist.git"
+  },
+  "keywords": [
+    "trip",
+    "list",
+    "organization"
+  ],
+  "author": "Evan Kent",
+  "bugs": {
+    "url": "https://github.com/Evan-Kent/triplist/issues"
+  },
+  "homepage": "https://github.com/Evan-Kent/triplist#readme"
+}
