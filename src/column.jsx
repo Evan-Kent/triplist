@@ -18,24 +18,21 @@ const TaskList = styled.ul`
 `;
 
 export default class Column extends React.Component {
-    render() {
-        return (
-            <ListContainer>
-                <Title>{this.props.column.title}</Title>
-                <Droppable droppableId={this.props.column.id}>
-                    {(provided, snapshot) => (
-                        <TaskList
-                            ref={provided.innerRef}
-                            {...provided.droppableProps}
-                        >
-                            {this.props.tasks.map((task, index) => (
-                                <Task key={task.id} task={task} index={index} />
-                            ))}
-                            {provided.placeholder}
-                        </TaskList>
-                    )}
-                </Droppable>
-            </ListContainer>
-        );
-    }
+  render() {
+    return (
+      <ListContainer>
+        <Title>{this.props.column.title}</Title>
+        <Droppable droppableId={this.props.column.id}>
+          {(provided, snapshot) => (
+            <TaskList ref={provided.innerRef} {...provided.droppableProps}>
+              {this.props.tasks.map((task, index) => (
+                <Task key={task.id} task={task} index={index} />
+              ))}
+              {provided.placeholder}
+            </TaskList>
+          )}
+        </Droppable>
+      </ListContainer>
+    );
+  }
 }
