@@ -10,10 +10,12 @@ const initialData = {
     "column-1": {
       id: "column-1",
       title: "Camping List",
-      taskIds: ["1", "2", "3", "4", "5"]
+      taskOrder: ["1", "2", "3", "4", "5"]
     }
   },
-  columnOrder: ["column-1"]
+  columnOrder: ["column-1"],
+  taskCount: 5,
+  input: ""
 };
 
 export default initialData;

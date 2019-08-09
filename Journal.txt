@@ -1,0 +1,16 @@
+    Here be the journal of web dev student Evan Kent, accursed be his name.
+
+Aug 1 - Investigated front end technology for a checklist type app. My initial strategy was to build out a express.js server
+    with a handful of routes for managing state (a CRUD like app). However, I have started working in depth with React.js
+    in my internship and after research, I realized that it would serve really well for most of the functionality of the app!
+    Switched my tech-stack to a React frontend.
+
+Aug 2 - Looked through options for a drag and drop helper to re-arrange the list. Settled on react-beautiful-dnd which has
+    a lot of nice features. It is a semi-opinionated plugin and I will be following the suggested structure for my program
+    even if I don't end up implementing all the features.
+
+Aug 5 - basic app layout built and committed into a git repo. I initially started styling my components using plain css
+    but now I implemented styled components. It's pretty slick for styling basic components and reduces a lot of the style
+    clutter that seems to accumulate in a React project.
+
+Aug

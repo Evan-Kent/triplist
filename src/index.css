@@ -5,9 +5,25 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #1e2031;
 }
+
+/*{
+  #1e2031
+  #4d5647
+  #758057
+  #a6a0a4
+  #e4e1ea
+}*/
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+div#ListContainer {
+}
+
+ul li:last-of-type {
+  list-style-type: none;
 }
