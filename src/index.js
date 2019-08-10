@@ -1,12 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 import { DragDropContext } from "react-beautiful-dnd";
 import initialData from "./initialData";
 import Column from "./column";
 
-import "./index.css";
+import "./styles.css";
 
 /************************************************************
  * A simple task list app by Evan Kent
@@ -83,7 +82,7 @@ class App extends React.Component {
       },
       columns: {
         ...this.state.columns,
-        ["column-1"]: {
+        "column-1": {
           ...this.state.columns["column-1"],
           taskOrder: [
             ...this.state.columns["column-1"].taskOrder,
@@ -100,6 +99,27 @@ class App extends React.Component {
     });
   };
 
+  handleEdit = (event, columnId, index) => {
+    console.log(event, columnId, index);
+  };
+
+  handleDelete = (event, columnId, index) => {
+    const column = this.state.columns[columnId];
+    const taskOrder = column.taskOrder.slice(0, index).concat(
+      column.taskOrder.slice(index+1));
+
+    this.setState({
+      columns: {
+        ...this.state.columns,
+        [columnId]: {
+          ...this.state.columns["column-1"],
+          taskOrder: taskOrder
+        }
+      }
+    }, () => {
+      console.log(this.state.columns);
+    });
+  };
 
   render() {
     return (
@@ -107,7 +127,8 @@ class App extends React.Component {
         {this.state.columnOrder.map(columnId => {
           const column = this.state.columns[columnId];
           const tasks = column.taskOrder.map(taskId => this.state.tasks[taskId]);
-
+          console.log("order of taskIds", column.taskOrder);
+          console.log("tasks passed to column: ", tasks);
           return (
             <Column
               key={column.id}
@@ -115,6 +136,8 @@ class App extends React.Component {
               tasks={tasks}
               submitHandler={this.handleSubmit}
               changeHandler={this.handleChange}
+              editHandler={this.handleEdit}
+              deleteHandler={this.handleDelete}
               input={this.state.input}
             />
           );

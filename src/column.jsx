@@ -7,7 +7,7 @@ const ListContainer = styled.div`
   margin: 20px;
   border: 1px solid grey;
   border-radius: 10px;
-  background-color: #4d5647;
+  background-color: #536459;
 `;
 
 const Title = styled.h2`
@@ -23,10 +23,13 @@ const TaskList = styled.ul`
 `;
 
 const Input = styled.input`
-  width: 95%;
+  font-family: "Open Sans", Arial, sans-serif;
+  width: 98%;
+  margin: 1%;
+  padding: 5px;
+  font-size: 16px;
   border: 1px solid #96958A;
   border-radius: 5px;
-  margin: 2.5%;
   height: 37px;
 `;
 
@@ -40,7 +43,13 @@ export default class Column extends React.Component {
             <TaskList ref={provided.innerRef} {...provided.droppableProps}>
               {
                 this.props.tasks.map((task, index) => (
-                  <Task key={task.id} task={task} index={index}/>
+                  <Task
+                    key={task.id}
+                    task={task}
+                    index={index}
+                    editHandler={(e) => this.props.editHandler(e, this.props.column.id, index)}
+                    deleteHandler={(e) => this.props.deleteHandler(e, this.props.column.id, index)}
+                  />
                 ))
               }
               {provided.placeholder}
@@ -58,8 +67,6 @@ export default class Column extends React.Component {
 }
 
 export class NewTask extends React.Component {
-  //const  = "Add an item!";
-
   render() {
     return (
       <form
@@ -69,7 +76,7 @@ export class NewTask extends React.Component {
           type="text"
           onChange={this.props.changeHandler}
           value={this.props.input}
-          //placeholder={placeholder}
+          placeholder={"Add an item!"}
         />
       </form>
     );
