@@ -20,6 +20,7 @@
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+security.json
 
 # Gradle
 .idea/**/gradle.xml
@@ -92,3 +93,6 @@ yarn-error.log*
 
 # Prettier rules
 .prettierrc
+
+# Journal
+Journal.txt

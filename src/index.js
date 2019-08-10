@@ -27,9 +27,15 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = initialData;
+    this.state = {
+      ...initialData,
+      editing: false,
+      tempContent: "",
+    };
+
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.finishEdit = this.finishEdit.bind(this);
   }
 
 
@@ -93,14 +99,43 @@ class App extends React.Component {
     });
   };
 
+  setTaskState = (task) => {
+    this.setState({
+      tasks: {
+        ...this.state.tasks,
+        [task.id]: task
+      }
+    });
+  };
+
   handleChange = (event) => {
     this.setState({
       input: event.target.value
     });
   };
 
-  handleEdit = (event, columnId, index) => {
-    console.log(event, columnId, index);
+  finishEdit = (event, task) => {
+    event.preventDefault();
+    event.stopPropagation();
+    console.log(event, task);
+  };
+
+  handleEdit = (event, taskId) => {
+    if (this.state.editing) return;
+
+    this.setState({
+      editing: true
+    });
+
+    const task = this.state.tasks[taskId];
+    task.content = <TaskInput
+      type={"text"}
+      value={task.content}
+      handleChange={(e) => this.setState({tempContent: e.target.value})}
+      handleSubmit={(e) => this.finishEdit(e, task)}
+    />;
+    console.log(task);
+    this.setTaskState(task);
   };
 
   handleDelete = (event, columnId, index) => {
@@ -127,8 +162,8 @@ class App extends React.Component {
         {this.state.columnOrder.map(columnId => {
           const column = this.state.columns[columnId];
           const tasks = column.taskOrder.map(taskId => this.state.tasks[taskId]);
-          console.log("order of taskIds", column.taskOrder);
-          console.log("tasks passed to column: ", tasks);
+          // console.log("order of taskIds", column.taskOrder);
+          // console.log("tasks passed to column: ", tasks);
           return (
             <Column
               key={column.id}
@@ -146,7 +181,16 @@ class App extends React.Component {
     );
   }
 }
-
+const TaskInput = ({...props}) => (
+  <form>
+    <input
+      type={props.type}
+      value={props.value}
+      onChange={props.handleChange}
+      onSubmit={props.handleSubmit}
+    />
+  </form>
+);
 const rootElement = document.getElementById("root");
 ReactDOM.render(<App />, rootElement);
 
