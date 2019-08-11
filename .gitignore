@@ -20,7 +20,7 @@
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
-security.json
+src/security.json
 
 # Gradle
 .idea/**/gradle.xml
@@ -76,6 +76,7 @@ fabric.properties
 
 # testing
 /coverage
+initialData.js
 
 # production
 /build
