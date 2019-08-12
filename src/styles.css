@@ -1,8 +1,17 @@
 body {
     @import url(//fonts.googleapis.com/css?family=Open+Sans);
-    font-family: "Open Sans", Arial, sans-serif;
+    font-family: "Raleway", Arial, sans-serif;
     font-size: 16px;
-    background-color: cornsilk;
+}
+
+.background {
+    background-image: url("/bg-trees.jpg");
+    background-size: cover;
+}
+
+div #root {
+    min-height: 100vh;
+    min-width: 100vw;
 }
 
 ul li:last-of-type {

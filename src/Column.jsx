@@ -1,17 +1,22 @@
 import React from "react";
-import Task from "./task";
+import Task from "./Task";
 import styled from "styled-components";
 import {Droppable} from "react-beautiful-dnd";
 
 const ListContainer = styled.div`
-  margin: 20px;
+  margin: 20px auto;
   border: 1px solid grey;
   border-radius: 10px;
-  background-color: #536459;
+  background-color: rgba(83, 100, 89, .65);
+  max-width: 900px;
+  
 `;
 
 const Title = styled.h2`
-  margin: 0;
+  margin: -4px 0 0 -18px;
+  letter-spacing: .05em;
+  font-family: 'Amatic SC', cursive;
+  font-weight: bold;
   line-height: 1em;
   font-size: 4em;
   color: #e4e1ea;

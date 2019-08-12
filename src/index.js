@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import {DragDropContext} from "react-beautiful-dnd";
 //import initialData from "./initialData";
-import Column from "./column";
+import Column from "./Column";
 import "./styles.css";
 import firebase from "firebase/app";
 import "firebase/firestore";
@@ -49,7 +49,6 @@ export default class App extends React.Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.finishEdit = this.finishEdit.bind(this);
   }
 
   componentDidMount() {
@@ -58,24 +57,23 @@ export default class App extends React.Component {
 
   getStarterList = () => {
     db.collection("lists")
-      .doc("initialData")
+      .doc(this.props.listName)
       .get()
       .then((doc) => {
         if (doc.exists) {
-          console.log(this.state);
-          this.setInitialState(doc.data());
+          this.readState(doc.data());
+          console.log(`${this.props.listName} read from the database.`)
         } else {
-          console.log("initialData does not exist!");
+          console.log(`${this.props.listName} does not exist in the database!`);
         }
       });
   };
 
-  setInitialState = initialState => {
+  readState = initialState => {
     if (initialState.tasks &&
       initialState.columns &&
       initialState.columnOrder &&
       initialState.taskCount) {
-      console.log("we good!");
       this.setState({
         tasks: initialState.tasks,
         columns: initialState.columns,
@@ -86,7 +84,23 @@ export default class App extends React.Component {
           loading: false,
         })
       });
-      console.log(this.state);
+    }
+  };
+
+  writeState = () => {
+    const document = {
+      tasks: this.state.tasks,
+      columns: this.state.columns,
+      columnOrder: this.state.columnOrder,
+      taskCount: this.state.taskCount
+    };
+    if (document) {
+      db.collection("lists").doc(this.props.listName)
+        .set(document).then(() => {
+          console.log("List written to database.");
+      }).catch((error) => {
+          console.error("Error writing to database: ", error);
+      });
     }
   };
 
@@ -118,6 +132,8 @@ export default class App extends React.Component {
         ...this.state.columns,
         [newColumn.id]: newColumn,
       }
+    }, () => {
+      this.writeState();
     });
   };
 
@@ -146,6 +162,8 @@ export default class App extends React.Component {
           ]
         }
       }
+    }, () => {
+      this.writeState();
     });
   };
 
@@ -164,30 +182,6 @@ export default class App extends React.Component {
     });
   };
 
-  finishEdit = (event, task) => {
-    event.preventDefault();
-    event.stopPropagation();
-    console.log(event, task);
-  };
-
-  handleEdit = (event, taskId) => {
-    if (this.state.editing) return;
-
-    this.setState({
-      editing: true
-    });
-
-    const task = this.state.tasks[taskId];
-    task.content = <TaskInput
-      type={"text"}
-      value={task.content}
-      handleChange={(e) => this.setState({tempContent: e.target.value})}
-      handleSubmit={(e) => this.finishEdit(e, task)}
-    />;
-    console.log(task);
-    this.setTaskState(task);
-  };
-
   handleDelete = (event, columnId, index) => {
     const column = this.state.columns[columnId];
     const taskOrder = column.taskOrder.slice(0, index).concat(
@@ -202,20 +196,17 @@ export default class App extends React.Component {
         }
       }
     }, () => {
-      console.log(this.state.columns);
+      this.writeState();
     });
   };
 
   render() {
-    console.log("rendering!", this.state.loading);
     return (
       <>
         <DragDropContext onDragEnd={this.onDragEnd}>
           {this.state.columnOrder.map(columnId => {
             const column = this.state.columns[columnId];
             const tasks = column.taskOrder.map(taskId => this.state.tasks[taskId]);
-            // console.log("order of taskIds", column.taskOrder);
-            // console.log("tasks passed to column: ", tasks);
             return (
               <Column
                 key={column.id}
@@ -234,15 +225,6 @@ export default class App extends React.Component {
     );
   }
 }
-const TaskInput = ({...props}) => (
-  <form>
-    <input
-      type={props.type}
-      value={props.value}
-      onChange={props.handleChange}
-      onSubmit={props.handleSubmit}
-    />
-  </form>
-);
+
 const rootElement = document.getElementById("root");
-ReactDOM.render(<App/>, rootElement);
+ReactDOM.render(<App listName={"initialData"}/>, rootElement);

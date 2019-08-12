@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import {Draggable} from "react-beautiful-dnd";
+import {Checkbox} from './Checkbox';
 
 const Container = styled.li`
   border: 1px solid #96958A;
@@ -15,7 +16,7 @@ const Container = styled.li`
   props.checked ? crossedout :
     props.isDragging ? dragging :
       (props.index % 2) ? evens : odds
-)};
+  )};
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
@@ -36,63 +37,17 @@ const odds = `
   background-color: #a09574;
 `;
 
-const Icon = styled.svg`
-  fill: none;
-  stroke: darkgreen;
-  stroke-width: 4px;
-`;
-
-
-
-const CheckboxContainer = styled.div`
-  display: inline-block;
-  vertical-align: middle;
-`;
-
-const HiddenCheckbox = styled.input.attrs({type: 'checkbox'})`
-  // Hide checkbox visually but remain accessible to screen readers.
-  // Source: https://polished.js.org/docs/#hidevisually
-  border: 0;
-  clip: rect(0 0 0 0);
-  clippath: inset(50%);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
-`;
-
-const StyledCheckbox = styled.div`
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border: 1px solid #2a5800;
-  background: ${props => props.checked ? 'seagreen' : '#cad15e'}
-  border-radius: 3px;
-  transition: all 150ms;
-  margin: 4px 16px;
-  ${HiddenCheckbox}:focus + & {
-    box-shadow: 0 0 0 2px #4a7820;
-  }
-  ${Icon} {
-    visibility: ${props => props.checked ? 'visible' : 'hidden'}
-  }
-`;
-
 const ButtonContainer = styled.span`
   margin-left: auto;
   cursor: pointer;
 `;
 
 const Button = styled.svg`
-  fill: #cad15e;
-  stroke: #2a5800;
+  fill: #13d454;
+  stroke: #003b14;
   stroke-width: 1px;
   margin-right: 5px;
 `;
-
 
 export default class Task extends React.Component {
   constructor(props) {
@@ -104,7 +59,6 @@ export default class Task extends React.Component {
   }
 
   handleChecked = e => {
-    console.log("checked!");
     this.setState({
       checked: e.target.checked
     });
@@ -132,15 +86,15 @@ export default class Task extends React.Component {
               </label>
               {this.props.task.content}
               <ButtonContainer>
-                <Button
-                  id={"Edit"}
-                  viewBox={"0 0 24 24"}
-                  width={"18"}
-                  height={"18"}
-                  onClick={(e) => this.props.editHandler(e, this.props.task.id)}
-                >
-                  <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
-                </Button>
+                {/*<Button*/}
+                {/*  id={"Edit"}*/}
+                {/*  viewBox={"0 0 24 24"}*/}
+                {/*  width={"18"}*/}
+                {/*  height={"18"}*/}
+                {/*  onClick={(e) => this.props.editHandler(e, this.props.task.id)}*/}
+                {/*>*/}
+                {/*  <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />*/}
+                {/*</Button>*/}
                 <Button
                   id={"Delete"}
                   viewBox={"0 0 24 24"}
@@ -162,13 +116,3 @@ export default class Task extends React.Component {
   }
 }
 
-const Checkbox = ({className, checked, ...props}) => (
-  <CheckboxContainer className={className}>
-    <HiddenCheckbox checked={checked} {...props} />
-    <StyledCheckbox checked={checked}>
-      <Icon viewBox="0 0 24 24">
-        <polyline points="20 6 9 17 4 12"/>
-      </Icon>
-    </StyledCheckbox>
-  </CheckboxContainer>
-);
