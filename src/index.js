@@ -1,13 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {DragDropContext} from "react-beautiful-dnd";
-//import initialData from "./initialData";
+import { ApiRequest, fetchWrapper } from "./api";
 import Column from "./Column";
 import "./styles.css";
 import firebase from "firebase/app";
 import "firebase/firestore";
 import "firebase/database";
-
 const ApiConfig = require("./security.json");
 
 
@@ -31,7 +30,6 @@ const reorder = (list, startIndex, endIndex) => {
   return result;
 };
 
-
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -45,6 +43,7 @@ export default class App extends React.Component {
       tasks: {},
       columnOrder: [],
       taskCount: 0,
+      backgroundImage: "",
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -52,8 +51,22 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
+    if (this.state.backgroundImage === "")
+      this.setBackgroundImage();
     this.getStarterList();
   }
+
+  setBackgroundImage = () => {
+    // fetchWrapper(ApiRequest.unsplash).then(data => {
+    //   this.setState({
+    //     backgroundImage: data.urls.regular
+    //   });
+    // });
+
+    this.setState({
+      backgroundImage: 'bg-trees.jpg'
+    })
+  };
 
   getStarterList = () => {
     db.collection("lists")
@@ -202,7 +215,7 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <>
+      <div>
         <DragDropContext onDragEnd={this.onDragEnd}>
           {this.state.columnOrder.map(columnId => {
             const column = this.state.columns[columnId];
@@ -221,7 +234,8 @@ export default class App extends React.Component {
             );
           })}
         </DragDropContext>
-      </>
+        <img alt="background" id="bg" src={`${this.state.backgroundImage}`}/>
+      </div>
     );
   }
 }

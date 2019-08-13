@@ -1,17 +1,36 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
 body {
     @import url(//fonts.googleapis.com/css?family=Open+Sans);
     font-family: "Raleway", Arial, sans-serif;
     font-size: 16px;
 }
 
-.background {
-    background-image: url("/bg-trees.jpg");
-    background-size: cover;
+#map {
+    color: #A5C0D7;
+    font-weight: bold;
+    text-decoration: underline;
 }
 
-div #root {
-    min-height: 100vh;
-    min-width: 100vw;
+.background {
+    min-height: 100%;
+}
+
+#bg {
+    z-index: -50;
+    position: fixed;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+#root {
+    min-height: 100%;
 }
 
 ul li:last-of-type {

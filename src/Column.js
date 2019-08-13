@@ -2,12 +2,13 @@ import React from "react";
 import Task from "./Task";
 import styled from "styled-components";
 import {Droppable} from "react-beautiful-dnd";
+import Location from "./Location";
 
 const ListContainer = styled.div`
   margin: 20px auto;
   border: 1px solid grey;
   border-radius: 10px;
-  background-color: rgba(83, 100, 89, .65);
+  background-color: rgba(83, 100, 89, .75);
   max-width: 900px;
   
 `;
@@ -20,7 +21,7 @@ const Title = styled.h2`
   line-height: 1em;
   font-size: 4em;
   color: #e4e1ea;
-  padding-left: 16px;
+  padding: 0 0 16px 16px;
 `;
 
 const TaskList = styled.ul`
@@ -43,6 +44,7 @@ export default class Column extends React.Component {
     return (
       <ListContainer id="ListContainer">
         <Title>{this.props.column.title}</Title>
+        <Location />
         <Droppable droppableId={this.props.column.id}>
           {(provided, snapshot) => (
             <TaskList ref={provided.innerRef} {...provided.droppableProps}>
