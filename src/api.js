@@ -50,7 +50,3 @@ export function fetchWrapper(target) {
       );
   });
 }
-/*
-<iframe width="600" height="450" frameBorder="0" style="border:0"
-        src="https://www.google.com/maps/embed/v1/search?q=Yellowstone%20National%20Park%2C%20WY%2C%20USA&key=AIzaSyCyXH_SOrDi02C9x_-KdUcLPvq5foW3Ppk"
-        allowFullScreen></iframe> */
