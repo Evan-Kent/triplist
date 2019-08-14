@@ -18,7 +18,10 @@ export const ApiRequest = {
   },
   maps: {
     geocodeUrl: "",
-    options: {}
+    options: {
+      method: 'GET',
+      credentials: 'omit'
+    }
   },
 };
 
@@ -36,11 +39,11 @@ function status(response) {
   }
 }
 
-export function fetchWrapper(target) {
+export function fetchWrapper({url, options}) {
   return new Promise((resolve, reject) => {
-    fetch(target.url, target.options).then(status).then(json)
+    fetch(url, options).then(status).then(json)
       .then(data => {
-          console.log("Response successful");
+          console.log("Response successful", data);
           resolve(data);
         },
         error => {

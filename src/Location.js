@@ -4,7 +4,7 @@ import {ButtonContainer, Button} from './Button';
 //import Map from "./Map";
 import {GoogleMap, LoadScript, Marker} from '@react-google-maps/api';
 import ApiConfig from "./security";
-import {fetchWrapper} from "./api";
+import {fetchWrapper, ApiRequest} from "./api";
 const Api = require('./security');
 
 const LocationContainer = styled.div`
@@ -50,11 +50,13 @@ export default class Location extends React.Component {
   }
 
   geocodeThenLoadMap = (location) => {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${ApiConfig.maps.apiKey}`;
-    fetchWrapper({url}).then(data => {
-      console.log("Geocode status", data.status);
+    const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${ApiConfig.maps.apiKey}`;
+    fetchWrapper({
+      url: geocodeUrl,
+      options: ApiRequest.maps.options
+    }).then(data => {
+      console.log("Geocode status ", data.status);
       if (data.status === "OK") {
-        console.log(data.results[0].geometry.location);
         this.setState({
           coords: data.results[0].geometry.location
         });
@@ -146,7 +148,6 @@ export default class Location extends React.Component {
   };
 
   render() {
-    console.log(this.state.status, this.state.children);
     return (
       <LocationContainer>
         {this.state.controls}
