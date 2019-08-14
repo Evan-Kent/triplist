@@ -10,10 +10,23 @@ body {
     font-size: 16px;
 }
 
-#map {
+#mapcontrol {
     color: #A5C0D7;
     font-weight: bold;
     text-decoration: underline;
+}
+
+#map {
+    height: 350px;
+    width: 96%;
+    margin: 10px auto;
+}
+
+.show {
+    display: block;
+}
+.hide {
+    display: none;
 }
 
 .background {

@@ -17,7 +17,7 @@ export const ApiRequest = {
     options: {}
   },
   maps: {
-    url: "",
+    geocodeUrl: "",
     options: {}
   },
 };

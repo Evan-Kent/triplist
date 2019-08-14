@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import {Draggable} from "react-beautiful-dnd";
 import {Checkbox} from './Checkbox';
+import {ButtonContainer, Button} from './Button';
 
 const Container = styled.li`
   border: 1px solid #96958A;
@@ -35,18 +36,6 @@ const evens = `
 `;
 const odds = `
   background-color: #a09574;
-`;
-
-const ButtonContainer = styled.span`
-  margin-left: auto;
-  cursor: pointer;
-`;
-
-const Button = styled.svg`
-  fill: #13d454;
-  stroke: #003b14;
-  stroke-width: 1px;
-  margin-right: 5px;
 `;
 
 export default class Task extends React.Component {
@@ -86,15 +75,6 @@ export default class Task extends React.Component {
               </label>
               {this.props.task.content}
               <ButtonContainer>
-                {/*<Button*/}
-                {/*  id={"Edit"}*/}
-                {/*  viewBox={"0 0 24 24"}*/}
-                {/*  width={"18"}*/}
-                {/*  height={"18"}*/}
-                {/*  onClick={(e) => this.props.editHandler(e, this.props.task.id)}*/}
-                {/*>*/}
-                {/*  <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />*/}
-                {/*</Button>*/}
                 <Button
                   id={"Delete"}
                   viewBox={"0 0 24 24"}

@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {DragDropContext} from "react-beautiful-dnd";
-import { ApiRequest, fetchWrapper } from "./api";
+//import { ApiRequest, fetchWrapper } from "./api";
 import Column from "./Column";
 import "./styles.css";
 import firebase from "firebase/app";
@@ -44,6 +44,7 @@ export default class App extends React.Component {
       columnOrder: [],
       taskCount: 0,
       backgroundImage: "",
+      location: 'Yellowstone'
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
