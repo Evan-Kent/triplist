@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import {DragDropContext} from "react-beautiful-dnd";
-//import { ApiRequest, fetchWrapper } from "./api";
+import { ApiRequest, fetchWrapper } from "./api";
 import Column from "./Column";
 import "./styles.css";
 import firebase from "firebase/app";
@@ -58,15 +58,15 @@ export default class App extends React.Component {
   }
 
   setBackgroundImage = () => {
-    // fetchWrapper(ApiRequest.unsplash).then(data => {
-    //   this.setState({
-    //     backgroundImage: data.urls.regular
-    //   });
-    // });
+    fetchWrapper(ApiRequest.unsplash).then(data => {
+      this.setState({
+        backgroundImage: data.urls.regular
+      });
+    });
 
-    this.setState({
-      backgroundImage: 'bg-trees.jpg'
-    })
+    // this.setState({
+    //   backgroundImage: 'bg-trees.jpg'
+    // })
   };
 
   getStarterList = () => {
