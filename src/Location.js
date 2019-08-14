@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import {ButtonContainer, Button} from './Button';
-//import Map from "./Map";
 import {GoogleMap, LoadScript, Marker} from '@react-google-maps/api';
 import ApiConfig from "./security";
 import {fetchWrapper, ApiRequest} from "./api";
@@ -12,6 +11,12 @@ const LocationContainer = styled.div`
   cursor: pointer;
 `;
 
+const LocationInput = styled.input.attrs(props => ({
+  type: 'text'
+}))`
+  width: 50%;
+`;
+
 const LocationText = styled.span`
   margin: 0 5px 0 18px;
   font-weight: bold;
@@ -19,33 +24,24 @@ const LocationText = styled.span`
   text-decoration: underline;
 `;
 
-const location = {
-  OPEN: 'open',
-  CLOSED: 'closed',
-  EDITING: 'editing',
-};
-
-
 export default class Location extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      status: location.CLOSED,
-      url: '',
+      editing: false,
       coords: {
         lat: 44.4280,
         lng: -110.5885
       },
       mapVisibility: "hide",
     };
-
-    this.state.location = this.props.location ?
-      this.props.location : 'Hot Springs National Park';
   }
 
   componentDidMount() {
-    this.closed();
+    this.setState({
+      controls: this.closed('Click to enter a location!')
+    });
     this.geocodeThenLoadMap(this.state.location);
   }
 
@@ -64,16 +60,10 @@ export default class Location extends React.Component {
     })
   };
 
-  toggleMap = () => {
-    this.setState({
-      mapVisibility: (this.state.mapVisibility === "show") ? "hide" : "show"
-    });
-  };
-
-  closed = () => {
-    const controls = [
+  closed = (location) => {
+    return ([
       <LocationText key={"text"} onClick={this.toggleMap}>
-        {this.state.location === '' ? 'Click to enter a location!' : this.state.location}
+        {location}
       </LocationText>,
       <ButtonContainer key={"edit"}>
         <Button
@@ -85,17 +75,18 @@ export default class Location extends React.Component {
           <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
         </Button>
       </ButtonContainer>
-    ];
-    this.setState({
-      controls: controls,
-    });
+    ]);
   };
 
   editing = () => {
-    const children = [
-      <LocationText key={"text"}>
-        {this.state.location === '' ? 'Click to enter a location!' : this.state.location}
-      </LocationText>,
+    return ([
+      <LocationInput
+        key={"input"}
+        placeholder={"Add your location here"}
+        value={this.state.input}
+        onChange={this.updateEditor}
+        onSubmit={(e) => e.preventDefault()}
+      />,
       <ButtonContainer key={"save"}>
         <Button
           id={"Save"}
@@ -108,46 +99,39 @@ export default class Location extends React.Component {
           <polyline points="7 3 7 8 15 8"/>
         </Button>
       </ButtonContainer>
-    ];
+    ]);
+  };
+
+  toggleMap = () => {
     this.setState({
-      children: children,
+      mapVisibility: (this.state.mapVisibility === "show") ? "hide" : "show"
     });
   };
 
-
-  closeMap = () => {
+  updateEditor = (event) => {
     this.setState({
-      children: {
-        ...this.state.children,
-        map: '',
-      }
+      input: event.target.value
     });
   };
 
-  openMap = () => {
-
-  };
-
-  handleClick = () => {
-    if (this.state.open)
-      this.closeMap();
-    else if (this.state.location === '')
-      this.openEditor();
-    else
-      this.openMap();
+  saveEdit = (event) => {
+    event.preventDefault();
+    this.setState({
+      location: this.state.input,
+      controls: this.closed(this.state.input)
+    }, () => this.geocodeThenLoadMap(this.state.location));
   };
 
   openEditor = () => {
+    console.log('opening location editor');
     this.setState({
-      status: location.EDITING,
+      input: this.state.location,
+      controls: this.editing()
     });
-
-    return (
-      <input type={"text"}/>
-    )
   };
 
   render() {
+    console.log("location", this.state.location);
     return (
       <LocationContainer>
         {this.state.controls}
