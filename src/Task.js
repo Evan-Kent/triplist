@@ -39,21 +39,16 @@ const odds = `
 `;
 
 export default class Task extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      checked: false
-    }
-  }
-
   handleChecked = e => {
-    this.setState({
+    this.props.taskHandler({
+      id: this.props.task.id,
+      content: this.props.task.content,
       checked: e.target.checked
     });
   };
 
   render() {
+    console.log('checked prop', this.props.task.checked);
     return (
       <div style={{display: "flex"}}>
         <Draggable draggableId={this.props.task.id} index={this.props.index}>
@@ -61,15 +56,14 @@ export default class Task extends React.Component {
             <Container
               {...provided.draggableProps}
               {...provided.dragHandleProps}
-              checked={this.state.checked}
+              checked={this.props.task.checked}
               ref={provided.innerRef}
               isDragging={snapshot.isDragging}
               index={this.props.index}
-              className={this.state.checked ? "done" : ""}
             >
               <label>
                 <Checkbox
-                  checked={this.state.checked}
+                  checked={this.props.task.checked ? this.props.task.checked : false}
                   onChange={this.handleChecked}
                 />
               </label>

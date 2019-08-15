@@ -55,6 +55,7 @@ export default class Column extends React.Component {
                     task={task}
                     index={index}
                     editHandler={this.props.editHandler}
+                    taskHandler={this.props.taskHandler}
                     deleteHandler={(e) => this.props.deleteHandler(e, this.props.column.id, index)}
                   />
                 ))

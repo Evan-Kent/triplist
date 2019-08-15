@@ -96,3 +96,6 @@ yarn-error.log*
 
 # Journal
 Journal.txt
+*.doc
+*.docx
+*.pdf

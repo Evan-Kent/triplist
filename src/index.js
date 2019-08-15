@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {DragDropContext} from "react-beautiful-dnd";
+import { DragDropContext } from "react-beautiful-dnd";
 import { ApiRequest, fetchWrapper } from "./api";
 import Column from "./Column";
 import "./styles.css";
@@ -13,9 +13,11 @@ const ApiConfig = require("./security.json");
 /************************************************************
  * A simple task list app by Evan Kent
  * React app format guidelines from react-beautiful-dnd
- * four-lines icon courtesy of https://feathericons.com
+ * icons courtesy of https://feathericons.com
  * checkbox tips from styled components https://www.styled-components.com
  * and https://medium.com/@colebemis
+ * Background images from unsplash.com
+ * Maps courtesy of Google Maps
  */
 
 
@@ -187,7 +189,8 @@ export default class App extends React.Component {
         ...this.state.tasks,
         [task.id]: task
       }
-    });
+    }, () => this.writeState());
+
   };
 
   handleChange = (event) => {
@@ -230,6 +233,7 @@ export default class App extends React.Component {
                 changeHandler={this.handleChange}
                 editHandler={this.handleEdit}
                 deleteHandler={this.handleDelete}
+                taskHandler={this.setTaskState}
                 input={this.state.input}
               />
             );
