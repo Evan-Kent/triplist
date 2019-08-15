@@ -1,22 +1,21 @@
 import React from "react";
 import Task from "./Task";
 import styled from "styled-components";
-import {Droppable} from "react-beautiful-dnd";
+import { Droppable } from "react-beautiful-dnd";
 import Location from "./Location";
 
 const ListContainer = styled.div`
   margin: 20px auto;
   border: 1px solid grey;
   border-radius: 10px;
-  background-color: rgba(83, 100, 89, .75);
+  background-color: rgba(83, 100, 89, 0.75);
   max-width: 900px;
-  
 `;
 
 const Title = styled.h2`
   margin: -4px 0 0 -18px;
-  letter-spacing: .05em;
-  font-family: 'Amatic SC', cursive;
+  letter-spacing: 0.05em;
+  font-family: "Amatic SC", cursive;
   font-weight: bold;
   line-height: 1em;
   font-size: 4em;
@@ -34,7 +33,7 @@ const Input = styled.input`
   margin: 1%;
   padding: 5px;
   font-size: 16px;
-  border: 1px solid #96958A;
+  border: 1px solid #96958a;
   border-radius: 5px;
   height: 37px;
 `;
@@ -48,18 +47,18 @@ export default class Column extends React.Component {
         <Droppable droppableId={this.props.column.id}>
           {(provided, snapshot) => (
             <TaskList ref={provided.innerRef} {...provided.droppableProps}>
-              {
-                this.props.tasks.map((task, index) => (
-                  <Task
-                    key={task.id}
-                    task={task}
-                    index={index}
-                    editHandler={this.props.editHandler}
-                    taskHandler={this.props.taskHandler}
-                    deleteHandler={(e) => this.props.deleteHandler(e, this.props.column.id, index)}
-                  />
-                ))
-              }
+              {this.props.tasks.map((task, index) => (
+                <Task
+                  key={task.id}
+                  task={task}
+                  index={index}
+                  editHandler={this.props.editHandler}
+                  taskHandler={this.props.taskHandler}
+                  deleteHandler={e =>
+                    this.props.deleteHandler(e, this.props.column.id, index)
+                  }
+                />
+              ))}
               {provided.placeholder}
               <NewTask
                 input={this.props.input}
@@ -77,9 +76,7 @@ export default class Column extends React.Component {
 export class NewTask extends React.Component {
   render() {
     return (
-      <form
-        onSubmit={this.props.submitHandler}
-      >
+      <form onSubmit={this.props.submitHandler}>
         <Input
           type="text"
           onChange={this.props.changeHandler}

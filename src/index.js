@@ -9,7 +9,6 @@ import "firebase/firestore";
 import "firebase/database";
 const ApiConfig = require("./security.json");
 
-
 /************************************************************
  * A simple task list app by Evan Kent
  * React app format guidelines from react-beautiful-dnd
@@ -19,7 +18,6 @@ const ApiConfig = require("./security.json");
  * Background images from unsplash.com
  * Maps courtesy of Google Maps
  */
-
 
 firebase.initializeApp(ApiConfig.firestore);
 const db = firebase.firestore();
@@ -46,7 +44,7 @@ export default class App extends React.Component {
       columnOrder: [],
       taskCount: 0,
       backgroundImage: "",
-      location: 'Yellowstone'
+      location: "Yellowstone"
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -54,8 +52,7 @@ export default class App extends React.Component {
   }
 
   componentDidMount() {
-    if (this.state.backgroundImage === "")
-      this.setBackgroundImage();
+    if (this.state.backgroundImage === "") this.setBackgroundImage();
     this.getStarterList();
   }
 
@@ -75,10 +72,10 @@ export default class App extends React.Component {
     db.collection("lists")
       .doc(this.props.listName)
       .get()
-      .then((doc) => {
+      .then(doc => {
         if (doc.exists) {
           this.readState(doc.data());
-          console.log(`${this.props.listName} read from the database.`)
+          console.log(`${this.props.listName} read from the database.`);
         } else {
           console.log(`${this.props.listName} does not exist in the database!`);
         }
@@ -86,20 +83,25 @@ export default class App extends React.Component {
   };
 
   readState = initialState => {
-    if (initialState.tasks &&
+    if (
+      initialState.tasks &&
       initialState.columns &&
       initialState.columnOrder &&
-      initialState.taskCount) {
-      this.setState({
-        tasks: initialState.tasks,
-        columns: initialState.columns,
-        columnOrder: initialState.columnOrder,
-        taskCount: initialState.taskCount,
-      }, () => {
-        this.setState({
-          loading: false,
-        })
-      });
+      initialState.taskCount
+    ) {
+      this.setState(
+        {
+          tasks: initialState.tasks,
+          columns: initialState.columns,
+          columnOrder: initialState.columnOrder,
+          taskCount: initialState.taskCount
+        },
+        () => {
+          this.setState({
+            loading: false
+          });
+        }
+      );
     }
   };
 
@@ -111,24 +113,29 @@ export default class App extends React.Component {
       taskCount: this.state.taskCount
     };
     if (document) {
-      db.collection("lists").doc(this.props.listName)
-        .set(document).then(() => {
+      db.collection("lists")
+        .doc(this.props.listName)
+        .set(document)
+        .then(() => {
           console.log("List written to database.");
-      }).catch((error) => {
+        })
+        .catch(error => {
           console.error("Error writing to database: ", error);
-      });
+        });
     }
   };
 
   onDragEnd = result => {
-    const {destination, source} = result;
+    const { destination, source } = result;
     // dropped outside the list
     if (!destination) {
       return;
     }
-    if (destination.droppableId === source.droppableId
-      && destination.index === source.index) {
-      return
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
     }
 
     const column = this.state.columns[source.droppableId];
@@ -140,20 +147,23 @@ export default class App extends React.Component {
 
     const newColumn = {
       ...column,
-      taskOrder: newTaskIds,
+      taskOrder: newTaskIds
     };
 
-    this.setState({
-      columns: {
-        ...this.state.columns,
-        [newColumn.id]: newColumn,
+    this.setState(
+      {
+        columns: {
+          ...this.state.columns,
+          [newColumn.id]: newColumn
+        }
+      },
+      () => {
+        this.writeState();
       }
-    }, () => {
-      this.writeState();
-    });
+    );
   };
 
-  handleSubmit = (event) => {
+  handleSubmit = event => {
     event.preventDefault();
 
     const newTask = {
@@ -161,39 +171,41 @@ export default class App extends React.Component {
       content: this.state.input
     };
 
-    this.setState({
-      input: '',
-      taskCount: this.state.taskCount + 1,
-      tasks: {
-        ...this.state.tasks,
-        [newTask.id]: newTask
-      },
-      columns: {
-        ...this.state.columns,
-        "column-1": {
-          ...this.state.columns["column-1"],
-          taskOrder: [
-            ...this.state.columns["column-1"].taskOrder,
-            newTask.id
-          ]
+    this.setState(
+      {
+        input: "",
+        taskCount: this.state.taskCount + 1,
+        tasks: {
+          ...this.state.tasks,
+          [newTask.id]: newTask
+        },
+        columns: {
+          ...this.state.columns,
+          "column-1": {
+            ...this.state.columns["column-1"],
+            taskOrder: [...this.state.columns["column-1"].taskOrder, newTask.id]
+          }
         }
+      },
+      () => {
+        this.writeState();
       }
-    }, () => {
-      this.writeState();
-    });
+    );
   };
 
-  setTaskState = (task) => {
-    this.setState({
-      tasks: {
-        ...this.state.tasks,
-        [task.id]: task
-      }
-    }, () => this.writeState());
-
+  setTaskState = task => {
+    this.setState(
+      {
+        tasks: {
+          ...this.state.tasks,
+          [task.id]: task
+        }
+      },
+      () => this.writeState()
+    );
   };
 
-  handleChange = (event) => {
+  handleChange = event => {
     this.setState({
       input: event.target.value
     });
@@ -201,20 +213,24 @@ export default class App extends React.Component {
 
   handleDelete = (event, columnId, index) => {
     const column = this.state.columns[columnId];
-    const taskOrder = column.taskOrder.slice(0, index).concat(
-      column.taskOrder.slice(index + 1));
+    const taskOrder = column.taskOrder
+      .slice(0, index)
+      .concat(column.taskOrder.slice(index + 1));
 
-    this.setState({
-      columns: {
-        ...this.state.columns,
-        [columnId]: {
-          ...this.state.columns["column-1"],
-          taskOrder: taskOrder
+    this.setState(
+      {
+        columns: {
+          ...this.state.columns,
+          [columnId]: {
+            ...this.state.columns["column-1"],
+            taskOrder: taskOrder
+          }
         }
+      },
+      () => {
+        this.writeState();
       }
-    }, () => {
-      this.writeState();
-    });
+    );
   };
 
   render() {
@@ -223,7 +239,9 @@ export default class App extends React.Component {
         <DragDropContext onDragEnd={this.onDragEnd}>
           {this.state.columnOrder.map(columnId => {
             const column = this.state.columns[columnId];
-            const tasks = column.taskOrder.map(taskId => this.state.tasks[taskId]);
+            const tasks = column.taskOrder.map(
+              taskId => this.state.tasks[taskId]
+            );
             return (
               <Column
                 key={column.id}
@@ -239,11 +257,11 @@ export default class App extends React.Component {
             );
           })}
         </DragDropContext>
-        <img alt="background" id="bg" src={`${this.state.backgroundImage}`}/>
+        <img alt="background" id="bg" src={`${this.state.backgroundImage}`} />
       </div>
     );
   }
 }
 
 const rootElement = document.getElementById("root");
-ReactDOM.render(<App listName={"initialData"}/>, rootElement);
+ReactDOM.render(<App listName={"initialData"} />, rootElement);

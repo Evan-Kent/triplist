@@ -1,23 +1,26 @@
 import React from "react";
 import styled from "styled-components";
-import {Draggable} from "react-beautiful-dnd";
-import {Checkbox} from './Checkbox';
-import {ButtonContainer, Button} from './Button';
+import { Draggable } from "react-beautiful-dnd";
+import { Checkbox } from "./Checkbox";
+import { ButtonContainer, Button } from "./Button";
 
 const Container = styled.li`
-  border: 1px solid #96958A;
+  border: 1px solid #96958a;
   padding: 8px;
   margin-bottom: 4px;
   border-radius: 5px;
   list-style-type: none;
   display: flex;
   flex-grow: 1;
-  align-items:center;
-  ${props => (
-  props.checked ? crossedout :
-    props.isDragging ? dragging :
-      (props.index % 2) ? evens : odds
-  )};
+  align-items: center;
+  ${props =>
+    props.checked
+      ? crossedout
+      : props.isDragging
+      ? dragging
+      : props.index % 2
+      ? evens
+      : odds};
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
@@ -48,9 +51,9 @@ export default class Task extends React.Component {
   };
 
   render() {
-    console.log('checked prop', this.props.task.checked);
+    console.log("checked prop", this.props.task.checked);
     return (
-      <div style={{display: "flex"}}>
+      <div style={{ display: "flex" }}>
         <Draggable draggableId={this.props.task.id} index={this.props.index}>
           {(provided, snapshot) => (
             <Container
@@ -63,7 +66,9 @@ export default class Task extends React.Component {
             >
               <label>
                 <Checkbox
-                  checked={this.props.task.checked ? this.props.task.checked : false}
+                  checked={
+                    this.props.task.checked ? this.props.task.checked : false
+                  }
                   onChange={this.handleChecked}
                 />
               </label>
@@ -89,4 +94,3 @@ export default class Task extends React.Component {
     );
   }
 }
-
